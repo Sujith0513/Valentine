@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffe6e6; /* Light pink background */
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevent scrolling when button gets huge */
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        h1 {
+            color: #ff4d4d;
+            font-family: 'Sacramento', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            width: 200px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 32px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        #yesBtn {
+            background-color: #28a745; /* Green */
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        #noBtn {
+            background-color: #dc3545; /* Red */
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        /* Success Page Styles */
+        #success-page {
+            display: none;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .gif-container img { width: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="question-page">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/T_16hts34x0AAAAi/cute-bear.gif" alt="Cute Bear">
+        </div>
+        <h1>Will you be my Valentine?</h1>
+        
+        <div class="btn-group">
+            <button id="yesBtn" onclick="handleYes()">Yes</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <div class="container" id="success-page">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Bear Kiss">
+        </div>
+        <h1>YAY! I knew it! ❤️</h1>
+        <p class="message">I love you so much! Happy Valentine's Day!</p>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionPage = document.getElementById('question-page');
+        const successPage = document.getElementById('success-page');
+
+        // Phrases to cycle through when she clicks No
+        const noTexts = [
+            "No",
+            "Are you sure?",
+            "Really sure?",
+            "Think again!",
+            "Last chance!",
+            "Surely not?",
+            "You might regret this!",
+            "Give it another thought!",
+            "Are you absolutely certain?",
+            "This could be a mistake!",
+            "Have a heart!",
+            "Don't be so cold!",
+            "Change of heart?",
+            "Wouldn't you reconsider?",
+            "Is that your final answer?",
+            "You're breaking my heart ;(",
+            "Plsss? :(("
+        ];
+
+        let i = 0;
+        let currentSize = 1.2; // Initial font size for Yes button
+
+        function handleNo() {
+            i++;
+            // Update the text on the No button
+            if (i < noTexts.length) {
+                noBtn.innerHTML = noTexts[i];
+            } else {
+                noBtn.innerHTML = "Pls stop clicking this :(";
+            }
+            
+            // Make the Yes button grow
+            currentSize += 0.5;
+            yesBtn.style.fontSize = `${currentSize}rem`;
+            // Also increase padding slightly to keep proportions
+            yesBtn.style.padding = `${currentSize * 10}px ${currentSize * 20}px`;
+        }
+
+        function handleYes() {
+            // Hide the question page
+            questionPage.style.display = 'none';
+            // Show the success page
+            successPage.style.display = 'block';
+            
+            // Trigger Confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            
+            // Trigger a second burst of confetti after a short delay
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 }
+                });
+            }, 500);
+        }
+    </script>
+</body>
+</html>
